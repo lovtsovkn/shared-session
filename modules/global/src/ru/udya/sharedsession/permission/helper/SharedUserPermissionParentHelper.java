@@ -3,12 +3,7 @@ package ru.udya.sharedsession.permission.helper;
 import com.haulmont.cuba.security.entity.EntityAttrAccess;
 import com.haulmont.cuba.security.entity.ScreenComponentPermission;
 import org.springframework.stereotype.Component;
-import ru.udya.sharedsession.permission.domain.SharedUserEntityAttributePermission;
-import ru.udya.sharedsession.permission.domain.SharedUserEntityPermission;
-import ru.udya.sharedsession.permission.domain.SharedUserPermission;
-import ru.udya.sharedsession.permission.domain.SharedUserScreenElementPermission;
-import ru.udya.sharedsession.permission.domain.SharedUserScreenPermission;
-import ru.udya.sharedsession.permission.domain.SharedUserSpecificPermission;
+import ru.udya.sharedsession.permission.domain.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,11 +44,12 @@ public class SharedUserPermissionParentHelper {
                      wildcardHelper::buildWildcardScreenPermissions),
 
                 Case($(instanceOf(SharedUserScreenElementPermission.class)),
-                     this::calculateParentScreenElementPermissions)
+                     this::calculateParentScreenElementPermissions),
+                Case($(), Collections.emptyList())
         );
     }
 
-    public List<SharedUserEntityAttributePermission> calculateParentEntityAttributePermissions(
+    private List<SharedUserEntityAttributePermission> calculateParentEntityAttributePermissions(
             SharedUserEntityAttributePermission entityAttributePermission) {
 
         var wildcardEntityAttributePermissions = wildcardHelper
@@ -76,7 +72,7 @@ public class SharedUserPermissionParentHelper {
                      .collect(Collectors.toList());
     }
 
-    public List<SharedUserScreenElementPermission> calculateParentScreenElementPermissions(
+    private List<SharedUserScreenElementPermission> calculateParentScreenElementPermissions(
             SharedUserScreenElementPermission screenElementPermission) {
 
         var wildcardScreenElementPermissions = wildcardHelper

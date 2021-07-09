@@ -2,6 +2,8 @@ package ru.udya.sharedsession.permission.domain;
 
 public class SharedUserEntityAttributePermission implements SharedUserPermission {
 
+    private static final long serialVersionUID = 6269547456251776160L;
+
     protected String entityType;
 
     protected String entityId;

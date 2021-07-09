@@ -5,34 +5,32 @@ import com.haulmont.cuba.core.entity.contracts.Ids;
 import com.haulmont.cuba.core.global.Metadata;
 import com.haulmont.cuba.security.entity.User;
 import org.springframework.stereotype.Component;
-import ru.udya.sharedsession.domain.SharedUserSession;
 import ru.udya.sharedsession.permission.domain.SharedUserPermission;
 import ru.udya.sharedsession.permission.helper.SharedUserPermissionStringRepresentationHelper;
 import ru.udya.sharedsession.permission.runtime.SharedUserSessionPermissionRuntime;
 import ru.udya.sharedsession.repository.SharedUserPermissionStorageItemRepositoryService;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
 @Component(SharedUserPermissionService.NAME)
 public class SharedUserPermissionServiceBean implements SharedUserPermissionService {
 
-    protected Metadata metadata;
-
-    protected SharedUserPermissionStorageItemRepositoryService
+    protected final SharedUserPermissionStorageItemRepositoryService
             sharedUserPermissionStorageItemRepository;
 
-    protected SharedUserSessionPermissionRuntime sharedUserSessionPermissionRuntime;
+    protected final SharedUserSessionPermissionRuntime sharedUserSessionPermissionRuntime;
 
-    protected SharedUserPermissionStringRepresentationHelper sharedPermissionStringHelper;
+    protected final SharedUserPermissionStringRepresentationHelper sharedPermissionStringHelper;
 
     public SharedUserPermissionServiceBean(
             SharedUserPermissionStorageItemRepositoryService sharedUserPermissionStorageItemRepository,
-            SharedUserSessionPermissionRuntime sharedUserSessionPermissionRuntime) {
+            SharedUserSessionPermissionRuntime sharedUserSessionPermissionRuntime,
+            SharedUserPermissionStringRepresentationHelper sharedPermissionStringHelper) {
 
         this.sharedUserPermissionStorageItemRepository = sharedUserPermissionStorageItemRepository;
         this.sharedUserSessionPermissionRuntime = sharedUserSessionPermissionRuntime;
+        this.sharedPermissionStringHelper = sharedPermissionStringHelper;
     }
 
     @Override

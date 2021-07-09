@@ -1,5 +1,7 @@
 package ru.udya.sharedsession.redis.permission.codec;
 
+import com.haulmont.cuba.core.sys.serialization.SerializationSupport;
+import com.haulmont.cuba.security.global.UserSession;
 import io.lettuce.core.codec.RedisCodec;
 import io.lettuce.core.codec.StringCodec;
 import org.springframework.stereotype.Component;
@@ -11,12 +13,7 @@ import java.nio.ByteBuffer;
 @Component("ss_RedisUserPermissionCodec")
 public class RedisSharedUserPermissionCodec implements RedisCodec<String, SharedUserPermission> {
 
-    protected SharedUserPermissionStringRepresentationHelper sharedPermissionStringHelper;
-
-    public RedisSharedUserPermissionCodec(
-            SharedUserPermissionStringRepresentationHelper sharedPermissionStringHelper) {
-        this.sharedPermissionStringHelper = sharedPermissionStringHelper;
-    }
+    public RedisSharedUserPermissionCodec() { }
 
     @Override
     public String decodeKey(ByteBuffer buf) {
@@ -25,10 +22,10 @@ public class RedisSharedUserPermissionCodec implements RedisCodec<String, Shared
 
     @Override
     public SharedUserPermission decodeValue(ByteBuffer buf) {
-        var permission = StringCodec.UTF8.decodeKey(buf);
+        byte[] bytes = new byte[buf.remaining()];
+        buf.get(bytes);
 
-        return sharedPermissionStringHelper
-                .convertStringToPermission(permission);
+        return (SharedUserPermission) SerializationSupport.deserialize(bytes);
     }
 
     @Override
@@ -38,8 +35,6 @@ public class RedisSharedUserPermissionCodec implements RedisCodec<String, Shared
 
     @Override
     public ByteBuffer encodeValue(SharedUserPermission permission) {
-        var redisKey = sharedPermissionStringHelper
-                .convertPermissionToString(permission);
-
-        return StringCodec.UTF8.encodeKey(redisKey);    }
+        return ByteBuffer.wrap(SerializationSupport.serialize(permission));
+    }
 }

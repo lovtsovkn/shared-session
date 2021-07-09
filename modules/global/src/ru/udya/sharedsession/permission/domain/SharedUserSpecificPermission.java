@@ -2,6 +2,8 @@ package ru.udya.sharedsession.permission.domain;
 
 public class SharedUserSpecificPermission implements SharedUserPermission{
 
+    private static final long serialVersionUID = -7853907796828292540L;
+
     protected String specificPermissionId;
 
     protected String operation;

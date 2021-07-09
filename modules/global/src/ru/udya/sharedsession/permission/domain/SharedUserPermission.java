@@ -1,6 +1,8 @@
 package ru.udya.sharedsession.permission.domain;
 
-public interface SharedUserPermission {
+import java.io.Serializable;
+
+public interface SharedUserPermission extends Serializable {
 
     String WILDCARD = "*";
 

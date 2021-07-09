@@ -2,6 +2,8 @@ package ru.udya.sharedsession.permission.domain;
 
 public class SharedUserScreenPermission implements SharedUserPermission {
 
+    private static final long serialVersionUID = 3596117407250285500L;
+
     protected String screenId;
 
     protected String operation;
